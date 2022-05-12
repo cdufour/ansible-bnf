@@ -3,7 +3,7 @@
 v1
 - installe nodejs
 - git clone le dépôt suivant: https://gitlab.com/cdufour1/nodeapp.git
-- exécute le fichier script.js en redirigeant la sortie sur un fichier output.txt
+- exécute le fichier script.js (node script.js) en redirigeant la sortie sur un fichier output.txt
 
 v2
 - installe nodejs et npm
