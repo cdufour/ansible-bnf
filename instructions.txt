@@ -48,7 +48,8 @@ ssh-keygen
 # démarrage de deux conteneurs
 ./deploy.sh --create 2
 
-
+*** Installation Ansible ***
+sudo apt-get install -y ansible
 
 
 
