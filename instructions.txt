@@ -1,0 +1,61 @@
+*** Connexion SSH ***
+# Clé privée à télécharger
+https://opusidea-training.s3.eu-west-3.amazonaws.com/divers/bnf.pem
+
+# Placer la clé à l'endroit où la commande ssh sera lancée
+# Ou démarrer une invite de commande dans le répertoire contenant la clé
+
+# Connexion SSH en ligne de commande. Remplacer X.X.X.X par votre propre identifiant
+ssh ubuntu@ec2-X.X.X.X.eu-central-1.compute.amazonaws.com -i bnf.pem
+
+
+*** Installation de Docker ***
+# mise à jour des sources
+sudo apt-get update
+
+# installation des paquets:
+sudo apt-get install -y ca-certificates curl gnupg lsb-release
+
+# récupération de la clé GPG docker
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+# mise à jour des sources apt
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# mise à jour des sources
+sudo apt-get update
+
+# installation de docker
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+# ajout de l'utilisateur courrant au groupe docker
+sudo usermod -aG docker $USER
+
+# mise à jour
+newgrp docker 
+
+
+*** Lancemer des "machines" (conteneurs) slaves ***
+# récupération du script
+curl https://gitlab.com/xavki/presentation-ansible-fr/-/raw/master/14-plateforme-dev-docker/deploy.sh -o deploy.sh
+
+# permission sur le script
+chmod +x deploy.sh
+
+# création de clés
+ssh-keygen
+
+# démarrage de deux conteneurs
+./deploy.sh --create 2
+
+
+
+
+
+
+
+
+
+
+
+
