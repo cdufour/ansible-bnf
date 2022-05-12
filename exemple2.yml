@@ -1,0 +1,21 @@
+- name: Exemple 2
+  hosts: slaves
+  gather_facts: no
+  tasks:
+  - name: Démo du module file
+    file:
+      path: /tmp/hello.txt
+      mode: '777'
+  - name: Démo du module file 2
+    file:
+      path: /tmp/bye.txt
+      state: absent
+  - name: Démo du module file 3
+    file:
+      path: /tmp/myfolder
+      state: directory
+      mode: '744'
+  - name: Test
+    file:
+      path: /tmp/toto/tata/titi
+      state: directory

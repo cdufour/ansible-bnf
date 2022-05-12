@@ -1,0 +1,15 @@
+- name: Exemple 1
+  hosts: slaves
+  tasks:
+  - name: Démo du module copy
+    copy:
+      src: files/hello.txt
+      dest: /tmp/hello.txt
+      user: ubuntu
+      group: ubuntu
+      mode: u=rw,g=rw,o=r # permissions 664
+
+  - name: Démo du module copy 2
+    copy:
+     src: files/bye.txt
+     dest: /tmp

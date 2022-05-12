@@ -1,0 +1,12 @@
+- name: Exemple 6
+  hosts: slaves
+  gather_facts: no
+  vars:
+    foo: bar
+    package: curl
+
+  tasks:
+  - debug: var=foo
+  - name: Installe le paquet {{ package }}
+    apt: name={{ package }} state=present
+    become: yes

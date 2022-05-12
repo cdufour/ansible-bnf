@@ -1,0 +1,11 @@
+# https://www.adminmalin.fr/ansible-debian-buster-service-is-in-unknown-state/
+# ne peut fonctionner que si "service" est utilisable dans la machine cible
+- name: Exemple 4
+  hosts: slaves
+  gather_facts: no
+  tasks:
+  - name: Démo du module service
+    service:
+      name: apache2
+      state: started
+    become: yes

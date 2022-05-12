@@ -1,0 +1,13 @@
+- name: Exemple 3
+  hosts: slaves
+  gather_facts: yes # pour disposer de la variable ansible_distribution
+  tasks:
+  - name: Affichage de la variable ansible_distribution
+    debug:
+      var: ansible_distribution
+  - name: Démo du module apt (package manager)
+    apt:
+      name: apache2
+      state: present
+    become: yes # devenir root
+    when: ansible_distribution == 'Debian'
