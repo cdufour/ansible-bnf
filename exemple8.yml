@@ -1,0 +1,15 @@
+- name: Exemple8
+  hosts: slaves
+  gather_facts: no
+  vars:
+    packages:
+    - name: apache2
+      state: present
+    - name: curl
+      state: present
+
+  tasks:
+  - apt:
+      name: '{{ item.name }}'
+      state: '{{ item.state }}'
+    become: yes

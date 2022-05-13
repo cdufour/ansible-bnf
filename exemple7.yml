@@ -1,0 +1,13 @@
+- name: Exemple7
+  hosts: slaves
+  gather_facts: no
+  vars:
+    packages: ['apache2', 'git', 'nodejs'] # liste de strings
+
+  tasks:
+  - debug: var=packages[0]
+  - apt:
+      name: '{{ item }}'
+      state: present
+    become: yes
+    loop: '{{ packages }}'
