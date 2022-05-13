@@ -1,0 +1,21 @@
+- name: Exemple9
+  hosts: slaves
+  gather_facts: no
+  become: yes # élévation en privilèges pour l'ensemble des tâches
+
+  tasks:
+
+  - name: Création du groupe porthos
+    group: name=porthos state=present
+
+  - name: Comptes utilisateur
+    user:
+      name: '{{ item.name }}'
+      group: '{{ item.group }}'
+    with_items:
+    - { name: aramis, group: sudo }
+    - { name: athos, group: sudo }
+    - { name: porthos, group: porthos }
+
+# Exemple de one-liner permettant la suppresion de l'utilisateur porthos
+# ansible slaves -i hosts -m user -a "name=porthos state=absent" -b

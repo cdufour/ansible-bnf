@@ -1,0 +1,26 @@
+- name: Exemple 10
+  hosts: slaves
+  gather_facts: yes
+  vars:
+    apache_dir: /var/www/html
+    user: ubuntu
+
+  tasks:
+  - name: Récupère les stats du chemin {{ apache_dir }}
+    stat:
+      path: '{{ apache_dir }}'
+    register: out
+  - debug: var=out.stat.exists
+
+  - name: Attribution de droits à {{ user }} sur {{ apache_dir }}
+    file:
+      path: '{{ apache_dir }}'
+      owner: '{{ user }}'
+      group: '{{ user }}'
+    become: yes
+    when: out.stat.exists
+
+  - name: Génération et copie d'un fichier html (template)
+    template:
+      src: templates/facts.html.j2
+      dest: '{{ apache_dir }}/facts.html'
