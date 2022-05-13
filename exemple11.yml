@@ -1,0 +1,12 @@
+- name: Exemple 11
+  hosts: slaves
+  gather_facts: no
+
+  tasks:
+  - name: Modifie le fichier sudoers
+    lineinfile:
+      path: /etc/sudoers
+      regex: '^%sudo'
+      line: '%sudo ALL=(ALL:ALL) ALL'
+      validate: 'visudo -cf %s' # valide avant mise à jour du fichier
+    become: yes

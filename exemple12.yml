@@ -1,0 +1,14 @@
+- name: Exemple 12
+  hosts: slaves
+  gather_facts: no
+
+  tasks:
+  - name: Récupération d'un fichier depuis les slaves
+    fetch:
+      src: /tmp/hello.txt
+      dest: /tmp/exemple12
+  - name: bis
+    fetch:
+      src: /tmp/bye.txt
+      dest: /tmp/exemple12-{{ inventory_hostname }}
+      flat: yes

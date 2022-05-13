@@ -1,0 +1,55 @@
+# Ce playbook
+# 1/ installe une pile LAMP
+# 2/ injection d'une page index.php à la place d'index.html
+# 3/ crée un utilisateur avec mot de passe "hashed" + permissions ssh
+
+- name: Projet 1
+  hosts: slave1
+  become: yes
+  vars:
+    apache_dir: /var/www/html
+
+  vars_files:
+  - user_password.yml
+
+  tasks:
+
+  - debug: var=toto
+
+  - name: Installe les paquets AMP
+    apt: name={{ item }} state=present
+    loop: ['apache2', 'mariadb-server', 'php', 'php-mysql', 'libapache2-mod-php']
+    when: false # skip
+
+  - name: Démarrage des services apache et mariadb
+    service: name={{ item }} state=started
+    loop: ['apache2', 'mariadb']
+
+  - name: Copie index.php
+    copy: src=files/index.php dest={{ apache_dir }}
+
+  - name: Récupère les stats d'index.html
+    stat: path='{{ apache_dir }}/index.html'
+    register: st
+
+  - name: Sauvegarde index.html
+    copy:
+      src: '{{ apache_dir }}/index.html'
+      dest: '{{ apache_dir }}/index.html.bak'
+      remote_src: yes
+    when: st.stat.exists
+
+  - name: Supprime index.html
+    file: path='{{ apache_dir }}/index.html' state=absent
+
+  - name: Crée un utilisateur
+    user:
+      name: toto
+      group: sudo
+      shell: /bin/bash
+      password: "{{ toto | password_hash('sha512') }}"
+
+  - name: Fournit clé rsa publique à l'utilisateur toto
+    authorized_key:
+      user: toto
+      key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"

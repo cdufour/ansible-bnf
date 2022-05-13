@@ -4,3 +4,6 @@ slave2  ansible_host=172.17.0.3
 [slaves]
 slave1
 slave2
+
+[slaves: vars]
+ansible_python_interpreter=/usr/bin/python3
